@@ -5,7 +5,7 @@ install:
 	pip install bumpversion twine wheel
 
 lint:
-	flake8 src/ tests/
+	flake8 send_nsca/ bin/ tests/
 	isort --recursive --check-only --diff src tests
 
 clean:
