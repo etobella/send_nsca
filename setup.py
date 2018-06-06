@@ -21,8 +21,8 @@ setup(
     scripts=["bin/py_send_nsca"],
     packages=["send_nsca"],
     provides=["send_nsca"],
-    install_requires=["pycrypto>=2.0.0", 'six',],
-    tests_require=["nose", "mock==1.0.1"],
+    install_requires=["cryptography", 'six', 'pydes', 'rc2'],
+    tests_require=["nose", "mock"],
     long_description="""send_nsca -- a pure-python nsca sender
 
 NSCA is the remote passive acceptance daemon used with many Nagios installs. It
