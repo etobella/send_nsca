@@ -24,7 +24,7 @@ def main():
     if args:
         parser.error("This program takes no un-flagged command-line options")
     if opts.version:
-        print "py_send_nsca %s " %send_nsca.version
+        print("py_send_nsca %s " %send_nsca.version)
         return 0
     if not opts.host_address:
         parser.error("-H is required")
@@ -48,7 +48,7 @@ def main():
             sender.send_service(host, service, status, output)
         else:
             logging.error("Incorrect number of fields on line '%s'", line)
-            print >>sys.stderr, "Incorrect number of fields on input line '%s'" % line
+            print("Incorrect number of fields on input line '%s'" % line, sys.stderr)
             return 1
     sender.disconnect()
     return 0

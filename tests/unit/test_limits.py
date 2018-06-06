@@ -1,5 +1,5 @@
 import mock
-from unittest2 import TestCase
+from unittest import TestCase
 
 import send_nsca
 
