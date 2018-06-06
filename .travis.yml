@@ -35,6 +35,8 @@ deps:
   - codecov
 
 install:
+  - pip install -r requirements.txt
+  - pip install -e .
   - pip install tox codecov
 
 script:
