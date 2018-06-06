@@ -3,7 +3,7 @@ from unittest import TestCase
 
 import send_nsca
 
-from .. import util
+from tests import util
 
 
 class TestLimits(TestCase):

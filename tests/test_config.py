@@ -1,11 +1,10 @@
 import io
 
-import six
 from unittest import TestCase
 
 import send_nsca
 
-from .. import util
+from . import util
 
 
 class TestConfig(TestCase):

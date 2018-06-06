@@ -23,7 +23,6 @@ from __future__ import with_statement
 
 import array
 import binascii
-import functools
 import logging
 import math
 import os
@@ -31,13 +30,13 @@ import random
 import socket
 import struct
 
-import Crypto.Cipher.AES
-import Crypto.Cipher.ARC2
-import Crypto.Cipher.Blowfish
-import Crypto.Cipher.DES
-import Crypto.Cipher.DES3
-import Crypto.Cipher.CAST
-import Crypto.Util.randpool
+from cryptography.hazmat.primitives.ciphers.algorithms import AES
+from rc2 import RC2 as ARC2
+from cryptography.hazmat.primitives.ciphers.algorithms import Blowfish
+from pyDes import des as DES
+from cryptography.hazmat.primitives.ciphers.algorithms import TripleDES
+from cryptography.hazmat.primitives.ciphers.algorithms import CAST5
+#import Crypto.Util.randpool
 import six
 
 from . import nagios
@@ -106,7 +105,7 @@ class XORCrypter(Crypter):
 class CryptoCrypter(Crypter):
     crypt_id = -1
     # override this
-    CryptoCipher = Crypto.Cipher.DES
+    CryptoCipher = DES
     # usually override this
     key_size = 7
     # rarely override this
@@ -136,19 +135,19 @@ class CryptoCrypter(Crypter):
 
 class DESCrypter(CryptoCrypter):
     crypt_id = 2
-    CryptoCipher = Crypto.Cipher.DES
+    CryptoCipher = DES
     key_size = 8
 
 
 class DES3Crypter(CryptoCrypter):
     crypt_id = 3
-    CryptoCipher = Crypto.Cipher.DES3
+    CryptoCipher = TripleDES
     key_size = 24
 
 
 class CAST128Crypter(CryptoCrypter):
     crypt_id = 4
-    CryptoCipher = Crypto.Cipher.CAST
+    CryptoCipher = CAST5
     key_size = 16
 
 
@@ -166,7 +165,7 @@ class ThreeWayCrypter(UnsupportedCrypter):
 
 class BlowFishCrypter(CryptoCrypter):
     crypt_id = 8
-    CryptoCipher = Crypto.Cipher.Blowfish
+    CryptoCipher = Blowfish
     key_size = 56
 
 
@@ -180,7 +179,7 @@ class Loki97Crypter(UnsupportedCrypter):
 
 class RC2Crypter(CryptoCrypter):
     crypt_id = 11
-    CryptoCipher = Crypto.Cipher.ARC2
+    CryptoCipher = ARC2
     key_size = 128
 
 
@@ -197,19 +196,19 @@ class RC6Crypter(UnsupportedCrypter):
 
 class AES128Crypter(CryptoCrypter):
     crypt_id = 14
-    CryptoCipher = Crypto.Cipher.AES
+    CryptoCipher = AES
     key_size = 16
 
 
 class AES192Crypter(CryptoCrypter):
     crypt_id = 15
-    CryptoCipher = Crypto.Cipher.AES
+    CryptoCipher = AES
     key_size = 24
 
 
 class AES256Crypter(CryptoCrypter):
     crypt_id = 16
-    CryptoCipher = Crypto.Cipher.AES
+    CryptoCipher = AES
     key_size = 32
 
 ########  WIRE PROTOCOL IMPLEMENTATION ########
@@ -252,7 +251,7 @@ def _pack_packet(hostname, service, state, output, timestamp):
     # compute the CRC32 of what we have so far
     crc_val = binascii.crc32(packet) & 0xffffffff
     struct.pack_into('!L', packet, 4, crc_val)
-    return packet.tostring()
+    return packet.tobytes()
 
 
 ########  MAIN CLASS IMPLEMENTATION ########
