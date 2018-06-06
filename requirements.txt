@@ -1,2 +1,4 @@
-pycrypto>=2.0
+cryptography
+pydes
+rc2
 six
