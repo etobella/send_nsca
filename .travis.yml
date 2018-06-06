@@ -3,14 +3,6 @@ sudo: false
 dist: trusty
 language: python
 
-addons:
-  apt:
-    packages:
-      - libssl-dev
-      - openssl
-      - libxml2
-      - pkg-config
-
 matrix:
   include:
     - python: 2.7
