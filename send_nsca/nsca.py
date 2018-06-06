@@ -22,6 +22,7 @@
 from __future__ import with_statement
 
 import array
+import sys
 import binascii
 import logging
 import math
@@ -57,6 +58,8 @@ log = logging.getLogger("send_nsca")
 ########  CIPHERS AND CRYPTERS IMPLEMENTATION ########
 
 crypters = {}
+
+USING_PYTHON2 = True if sys.version_info < (3, 0) else False
 
 
 class _MetaCrypter(type):
@@ -251,6 +254,8 @@ def _pack_packet(hostname, service, state, output, timestamp):
     # compute the CRC32 of what we have so far
     crc_val = binascii.crc32(packet) & 0xffffffff
     struct.pack_into('!L', packet, 4, crc_val)
+    if USING_PYTHON2:
+        return packet.tostring()
     return packet.tobytes()
 
 
